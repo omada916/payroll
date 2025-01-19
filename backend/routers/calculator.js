@@ -1,32 +1,49 @@
 import express from "express";
 
-const ctData = {
-   br: [
-      [0, 10000],
-      [10001, 50000],
-      [50001, 100000],
-      [100001, 200000],
-      [200001, 250000],
-      [250001, 500000],
-   ],
-   brd: [
-      0.02,
-      [10000, 0.045, 200],
-      [50000, 0.055, 2000],
-      [100000, 0.06, 4250],
-      [200000, 0.065, 8750],
-      [250000, 0.069, 24350],
-      [500000, 0.0699, 41600],
-   ],
+const data = {
+   ctData: {
+      br: [
+         // [min, max]
+         [0, 10000],
+         [10001, 50000],
+         [50001, 100000],
+         [100001, 200000],
+         [200001, 250000],
+         [250001, 500000],
+      ],
+      brd: [
+         // [remove, rate, add]
+         0.02,
+         [10000, 0.045, 200],
+         [50000, 0.055, 2000],
+         [100000, 0.06, 4250],
+         [200000, 0.065, 8750],
+         [250000, 0.069, 24350],
+         [500000, 0.0699, 41600],
+      ],
+   },
+   federalData: {
+      br: [
+         // [min, max]
+         [0, 11600],
+         [11601, 47150],
+         [47151, 100525],
+         [100526, 191950],
+         [191951, 243725],
+         [243726, 609350],
+      ],
+      brd: [
+         // [remove, rate, add]
+         0.1,
+         [11600, 0.12, 1160],
+         [47150, 0.22, 5183],
+         [100525, 0.24, 18558],
+         [191950, 0.32, 46278],
+         [243725, 0.35, 88528],
+         [609350, 0.37, 161379],
+      ],
+   },
 };
-const federalData = {
-   br: [
-
-   ],
-   brd: [
-      
-   ]
-}
 const router = express.Router();
 
 function isranged(x, min, max) {
@@ -72,7 +89,18 @@ export function calculate(income, brd, br) {
 
 router.post("/calc", (req, res) => {
    console.log(`CT tax request: ${req.body.income}`);
-   res.status(200).json({ taxes: calculate(Number(req.body.income), ctData.brd, ctData.br) });
+   res.status(200).json({
+      ctTaxes: calculate(
+         Number(req.body.income),
+         data.ctData.brd,
+         data.ctData.br
+      ),
+      fedTaxes: calculate(
+         Number(req.body.income),
+         data.federalData.brd,
+         data.federalData.br
+      ),
+   });
 });
 
 export default router;

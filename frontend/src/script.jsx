@@ -1,7 +1,3 @@
-export async function sub(income) {
-   var r = await request("/calc/calc", "POST", JSON.stringify({income,}));
-   return r.taxes
-}
 async function request(url, way, body) {
    try {
       const response = await fetch(url, {
@@ -16,4 +12,9 @@ async function request(url, way, body) {
    } catch (e) {
       console.error(`Error: ${e.message}`);
    }
+}
+
+export async function sub(income) {
+   var r = await request("/calc/calc", "POST", JSON.stringify({income,}));
+   return r
 }
