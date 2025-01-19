@@ -1,11 +1,8 @@
 import express from "express";
-import dotenv from "dotenv";
 import router from "./routers/calculator.js";
-import { calculate } from "./routers/calculator.js";
 
-dotenv.config();
 const app = express();
-const port = process.env.port;
+const port = 3000;
 
 app.use(express.json());
 app.use(express.static("./frontend/dist"))
