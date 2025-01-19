@@ -1,6 +1,5 @@
 import express from "express";
 import router from "./routers/calculator.js";
-import { Analytics } from "@vercel/analytics/react"
 
 const app = express();
 const port = 3000;
